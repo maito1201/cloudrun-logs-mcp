@@ -187,9 +187,112 @@ func main() {
 }
 ```
 
+## MCPサーバーとしての使用
+
+このツールは、Model Context Protocol (MCP) サーバーとしても機能します。MCPサーバーを使用すると、AIアシスタントがCloud Runのログやサービス情報を直接取得できるようになります。
+
+### MCPサーバーの起動
+
+```bash
+# リポジトリをクローンしてビルド
+git clone https://github.com/ito-masahiko/cloudrun-logs-mcp.git
+cd cloudrun-logs-mcp
+go build -o cloudrun-logs-mcp ./cmd/mcp
+
+# MCPサーバーを起動
+./cloudrun-logs-mcp
+```
+
+デフォルトでは、サーバーはポート3000で起動します。
+
+### 利用可能なツール
+
+MCPサーバーは以下のツールを提供します：
+
+#### get_logs
+
+Google Cloud Runのログを取得します。
+
+**パラメータ：**
+
+| パラメータ名 | 説明 | 必須 | デフォルト値 |
+|------------|------|------|-------------|
+| project_id | Google Cloudプロジェクトのプロジェクトid | はい | - |
+| service_name | Cloud Runのサービス名 | いいえ | - |
+| start_time | ログの開始時間（RFC3339形式、例: 2023-01-01T00:00:00Z） | いいえ | - |
+| end_time | ログの終了時間（RFC3339形式、例: 2023-01-01T00:00:00Z） | いいえ | - |
+| log_level | ログレベル（INFO, ERROR, WARNINGなど） | いいえ | - |
+| keywords | 検索キーワードの配列 | いいえ | - |
+| limit | 取得するログエントリの最大数 | いいえ | 100 |
+
+**使用例：**
+
+```json
+{
+  "project_id": "your-project-id",
+  "service_name": "your-service-name",
+  "log_level": "ERROR",
+  "keywords": ["error", "exception"],
+  "limit": 50
+}
+```
+
+#### get_services
+
+Google Cloud Runのサービス一覧を取得します。
+
+**パラメータ：**
+
+| パラメータ名 | 説明 | 必須 | デフォルト値 |
+|------------|------|------|-------------|
+| project_id | Google Cloudプロジェクトのプロジェクトid | はい | - |
+| region | Cloud Runのリージョン | いいえ | us-central1 |
+
+**使用例：**
+
+```json
+{
+  "project_id": "your-project-id",
+  "region": "us-central1"
+}
+```
+
+### AIアシスタントとの連携
+
+AIアシスタントとMCPサーバーを連携するには、以下の手順を実行します：
+
+1. MCPサーバーを起動します
+2. AIアシスタントにMCPサーバーのURLを提供します（例：`http://localhost:3000`）
+3. AIアシスタントがMCPサーバーを通じてCloud Runのログやサービス情報を取得できるようになります
+
+### 使用例
+
+AIアシスタントとの対話例：
+
+```
+ユーザー: project-idが「my-project」のCloud Runサービス一覧を取得してください
+
+AIアシスタント: Cloud Runサービス一覧を取得します。
+
+[AIアシスタントがMCPサーバーを使用してサービス一覧を取得]
+
+以下がプロジェクト「my-project」のCloud Runサービス一覧です：
+
+名前: service-1
+URL: https://service-1-xxx.run.app
+ステータス: Ready
+作成日時: 2023-01-01T00:00:00Z
+
+名前: service-2
+URL: https://service-2-xxx.run.app
+ステータス: Ready
+作成日時: 2023-01-02T00:00:00Z
+
+合計2件のサービスが見つかりました。
+```
+
 ## 将来の拡張予定
 
-- MCPサーバーとしての機能拡張
 - より詳細なフィルタリングオプションの追加
 - 出力形式のカスタマイズ
 
