@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/ito-masahiko/cloudrun-logs-mcp/pkg/logs"
@@ -27,11 +26,9 @@ func main() {
 	// サービス一覧取得ツールを登録
 	mcpServer.AddTool(getServicesTool(), getServicesHandler)
 
-	// サーバーを起動
-	log.Println("Starting MCP server on port 3000...")
-	sseServer := server.NewSSEServer(mcpServer, server.WithBasePath("/"))
-	if err := sseServer.Start(":3000"); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+	// サーバー起動
+	if err := server.ServeStdio(mcpServer); err != nil {
+		fmt.Printf("Server error: %v\n", err)
 	}
 }
 
