@@ -10,25 +10,6 @@ Google Cloud RunのログをMCPのインターフェースを介して確認す�
 
 ## 前提条件
 
-- Go 1.16以上
-- Google Cloudのアプリケーションデフォルトクレデンシャルが設定されていること
-
-## インストール
-
-```bash
-go install github.com/maito1201/cloudrun-logs-mcp@latest
-```
-
-または、リポジトリをクローンしてビルド：
-
-```bash
-git clone https://github.com/maito1201/cloudrun-logs-mcp.git
-cd cloudrun-logs-mcp
-go build
-```
-
-## 認証
-
 このツールは、Google Cloudのアプリケーションデフォルトクレデンシャルを使用して認証を行います。以下のいずれかの方法で認証情報を設定してください：
 
 1. `gcloud auth application-default login`コマンドを実行
@@ -38,6 +19,49 @@ go build
 ## MCPサーバーとしての使用
 
 このツールは、Model Context Protocol (MCP) サーバーとしても機能します。MCPサーバーを使用すると、AIアシスタントがCloud Runのログやサービス情報を直接取得できるようになります。
+
+## MCPサーバーの設定(バイナリをダウンロードする場合)
+
+GitHubのリリースページからバイナリをダウンロードして使用することもできます。
+https://github.com/maito1201/cloudrun-logs-mcp/releases
+
+macOS(Apple Silicon)
+```bash
+curl -L https://github.com/maito1201/cloudrun-logs-mcp/releases/latest/download/cloudrun-logs-mcp_Darwin_arm64.tar.gz -o cloudrun-logs-mcp.tar.gz
+```
+macOS(Intel)
+```
+curl -L https://github.com/maito1201/cloudrun-logs-mcp/releases/latest/download/cloudrun-logs-mcp_Darwin_x86_64.tar.gz -o cloudrun-logs-mcp.tar.gz
+```
+
+```
+# 解凍
+tar -xzf cloudrun-logs-mcp.tar.gz
+
+# 実行権限を付与
+chmod +x cloudrun-logs-mcp
+
+# 必要に応じて、パスの通った場所に移動
+# 例：
+# sudo mv cloudrun-logs-mcp /usr/local/bin/
+```
+
+MCPサーバーの設定(Clineの場合)
+
+```
+{
+  "mcpServers": {
+    "cloudrun-logs": {
+      "autoApprove": [],
+      "disabled": false,
+      "timeout": 60,
+      "command": "/your-installed-path/cloudrun-logs-mcp",
+      "args": [],
+      "transportType": "stdio"
+    }
+  }
+}
+```
 
 ## MCPサーバーの設定(ビルドする場合)
 
@@ -88,9 +112,7 @@ MCPサーバーの設定(Clineの場合)
 }
 ```
 
-デフォルトでは、サーバーはポート3000で起動します。
-
-### 利用可能なツール
+## 利用可能なツール
 
 MCPサーバーは以下のツールを提供します：
 
