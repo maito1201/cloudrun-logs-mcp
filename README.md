@@ -65,6 +65,29 @@ MCPサーバーの設定(Clineの場合)
 }
 ```
 
+## MCPサーバーの設定(go install)
+
+```bash
+go install github.com/maito1201/cloudrun-logs-mcp@latest
+```
+
+MCPサーバーの設定(Clineの場合)
+
+```
+{
+  "mcpServers": {
+    "cloudrun-logs": {
+      "autoApprove": [],
+      "disabled": false,
+      "timeout": 60,
+      "command": "cloudrun-logs-mcp",
+      "args": [],
+      "transportType": "stdio"
+    }
+  }
+}
+```
+
 デフォルトでは、サーバーはポート3000で起動します。
 
 ### 利用可能なツール
