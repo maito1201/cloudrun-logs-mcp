@@ -23,8 +23,8 @@ go install github.com/maito1201/cloudrun-logs-mcp@latest
 
 ```bash
 git clone https://github.com/maito1201/cloudrun-logs-mcp.git
-cd cloudrun-logs-mcp/mcp
-go build -o mcp
+cd cloudrun-logs-mcp
+go build
 ```
 
 ## 認証
@@ -44,7 +44,7 @@ go build -o mcp
 ```bash
 # リポジトリをクローンしてビルド
 git clone https://github.com/maito1201/cloudrun-logs-mcp.git
-cd cloudrun-logs-mcp/mcp
+cd cloudrun-logs-mcp
 go build
 ```
 
@@ -57,7 +57,7 @@ MCPサーバーの設定(Clineの場合)
       "autoApprove": [],
       "disabled": false,
       "timeout": 60,
-      "command": "/your-installed-path/cloudrun-logs-mcp/mcp/mcp",
+      "command": "/your-build-path/cloudrun-logs-mcp",
       "args": [],
       "transportType": "stdio"
     }
