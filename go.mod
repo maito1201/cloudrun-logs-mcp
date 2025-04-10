@@ -1,4 +1,4 @@
-module github.com/ito-masahiko/cloudrun-logs-mcp
+module github.com/maito1201/cloudrun-logs-mcp
 
 go 1.24.0
 

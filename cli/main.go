@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ito-masahiko/cloudrun-logs-mcp/pkg/logs"
+	"github.com/maito1201/cloudrun-logs-mcp/logs"
 	"github.com/urfave/cli/v2"
 )
 

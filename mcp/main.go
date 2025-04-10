@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ito-masahiko/cloudrun-logs-mcp/pkg/logs"
+	"github.com/maito1201/cloudrun-logs-mcp/logs"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
